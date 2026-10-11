@@ -14,3 +14,4 @@ jobs:
         with:
           node-version: '22'
       - run: python3 tests/smoke_test.py
+      - run: node tests/regression_test.js

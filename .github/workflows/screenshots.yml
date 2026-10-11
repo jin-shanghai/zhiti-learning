@@ -36,5 +36,7 @@ jobs:
             echo 'Screenshots are already current.'
           else
             git commit -m 'docs: refresh product screenshots'
-            git push
+            git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
           fi
