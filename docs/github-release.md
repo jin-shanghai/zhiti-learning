@@ -1,7 +1,7 @@
 # 仓库发布与维护状态
 
 仓库：<https://github.com/jin-shanghai/zhiti-learning>  
-版本：v0.1.0（以 VERSION 文件为准）
+版本：V1 正式版（Git 标签 `v1.0.0`；VERSION 文件 `1.0.0`）
 
 ## 正式发布
 
