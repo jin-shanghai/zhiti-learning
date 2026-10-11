@@ -6,9 +6,11 @@
 
 ### 内置600道理论练习题的开源、离线优先学习系统
 
+**正式版 v0.1.0 已发布 · 300道单选 + 300道判断**
+
 **把题库换成你的，它就是你的考试学习站。**
 
-[在线体验](https://jin-shanghai.github.io/zhiti-learning/) · [30 秒开始](#30-秒开始) · [功能一览](#你会得到什么) · [题库格式](docs/question-bank-format.md) · [English](README.en.md)
+[在线体验](https://jin-shanghai.github.io/zhiti-learning/) · [下载正式版](https://github.com/jin-shanghai/zhiti-learning/releases/latest) · [30 秒开始](#30-秒开始) · [功能一览](#你会得到什么) · [题库格式](docs/question-bank-format.md) · [English](README.en.md)
 
 [![MIT License](https://img.shields.io/badge/license-MIT-087b6d?style=flat-square)](LICENSE)
 ![No Account](https://img.shields.io/badge/account-not_required-087b6d?style=flat-square)
@@ -74,7 +76,7 @@
 
 ### 方法二：完全离线使用
 
-1. 下载本仓库的 `index.html`。
+1. 在 [GitHub Releases 正式下载页](https://github.com/jin-shanghai/zhiti-learning/releases/latest) 下载离线单文件 HTML 或完整离线 ZIP；也可直接下载仓库的 `index.html`。
 2. 双击，用 Chrome、Edge 或 Safari 打开。
 3. 直接练习内置的300道单选题与300道判断题，或进入「数据与设置」导入自己的题库。
 
@@ -135,7 +137,7 @@ flowchart LR
 
 ### 这是人工智能训练师三级题库吗？
 
-不是。本项目是适用于人工智能训练师备考的开源刷题和学习分析系统，公开仓库内置由项目维护者提供的600道理论练习题，不保证为官方真题或标准答案。你可以导入自己合法获得和有权使用的题目。
+不是。本项目是适用于人工智能训练师备考的开源刷题和学习分析系统，**已内置600道理论练习题**（300单选、300判断），题库由维护者提供，不保证为官方真题或标准答案。你可以导入自己合法获得和有权使用的题目。
 
 ### 能导入自己的 AI 训练师题库吗？
 
@@ -147,7 +149,7 @@ flowchart LR
 
 ## 项目状态
 
-当前版本为 **v0.1.0-rc3**，包含离线训练、题库导入、错题强化和学习分析；自动测试目前覆盖语法、题库脱敏及部分导入逻辑，不代表全部浏览器交互或移动设备已完成验收。
+当前稳定版本为 **v0.1.0**。GitHub Actions 已覆盖语法、题库结构、核心数据回归测试，以及 Chromium 桌面与移动视口的主要交互；Safari、Edge 和真实设备仍建议人工复核。
 
 ## 参与项目
 
@@ -166,9 +168,10 @@ flowchart LR
 
 - **程序代码：** [MIT License](LICENSE)，允许商业使用、修改和再分发。
 - **名称与标识：** 可以为准确指明本项目来源而提及“知题 ZHITI”；使用修改版时不得暗示获得项目维护者授权或官方背书。详见 [NOTICE](NOTICE)。
-- **用户导入题库：** 不属于本项目授权范围，权利和使用责任由导入者自行确认。
+- **内置600道题库：** 根据维护者提供的学习材料收录，题目与答案不自动适用代码 MIT 许可证；未经另行授权不得据此认定可独立再分发题库。
+- **用户导入题库：** 不属于本项目软件许可范围，权利和使用责任由导入者自行确认。
 
-题库和内容权利的提交要求、投诉与移除流程见 [题库与内容权利保护](CONTENT_RIGHTS.md)。网上可下载的题目不等于允许放进开源仓库；收到投诉再删除也不能替代事先授权。
+内置题库的来源、许可边界以及投诉与移除流程见 [题库与内容权利保护](CONTENT_RIGHTS.md)。网上可下载的题目不等于允许放进开源仓库；收到投诉再删除也不能替代事先授权。
 
 ---
 
