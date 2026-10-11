@@ -5,7 +5,7 @@ const simulated=[
 {id:1,answer:'A'},{id:2,answer:'B'},{id:3,answer:'A'},{id:4,answer:'A'},{id:5,answer:'B'},{id:6,answer:'A'}
 ],judges=[{id:'J001',answer:'A'},{id:'J002',answer:'B'},{id:'J003',answer:'A'},{id:'J004',answer:'B'}];
 const data={history:{},bookmarks:[],comments:{},multiQuestions:[{id:'M001',q:'multi',options:['a','b','c'],answer:'AB',category:'test'}],session:{type:'sequential',kind:'mixed',filter:{kind:'mixed'},ids:[1,'J001',2,'J002',3,'J003',4,'J004',5,6],answers:{1:'A','J001':'A',2:'B','J002':'B',3:'A','J003':'A',4:'A','J004':'B',5:'B',6:'A'},startedAt:Date.now()-1000,finished:false},sessions:[],exams:[],seqCursorMixed:0};
-const ctx={data,QUESTIONS:simulated,JUDGMENTS:judges,byId:id=>typeof id==='number'?simulated[id-1]:judges.find(q=>q.id===id),sessionName:()=> 'mixed',recordAnswer:()=>{},persist:()=>{},setPage:p=>ctx.page=p,reportSelected:null,latestExam:null,Math,Date,JSON,Object,Array,String,Number,console};
+const ctx={data,QUESTIONS:simulated,JUDGMENTS:judges,byId:id=>/^\d+$/.test(String(id))?simulated[Number(id)-1]:judges.find(q=>q.id===id),sessionName:()=> 'mixed',recordAnswer:()=>{},persist:()=>{},setPage:p=>ctx.page=p,reportSelected:null,latestExam:null,Math,Date,JSON,Object,Array,String,Number,console};
 vm.createContext(ctx);
 vm.runInContext(section('function finishSession(asExam){','function sessionData(){'),ctx);
 ctx.finishSession(false);
