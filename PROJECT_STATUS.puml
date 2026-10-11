@@ -1,0 +1,17 @@
+@startuml
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #087b6d
+skinparam ActivityBorderColor #087b6d
+skinparam ActivityBackgroundColor #e9f8f2
+skinparam ActivityDiamondBackgroundColor #fff4df
+start
+:V6.2 原文件只读审计完成;
+:公开版题库已换成原创演示题;
+:MIT 商业授权与品牌边界已写入;
+:题库本地导入、隐私和投诉文档已补齐;
+:静态安全与语法检查通过;
+:等待浏览器交互验收与发布动作确认;
+stop
+@enduml

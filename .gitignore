@@ -1,0 +1,7 @@
+.DS_Store
+*.zip
+*.json.bak
+.env
+.env.*
+!.env.example
+*.study-backup.json
