@@ -15,3 +15,7 @@ Study backups now include question-bank fingerprints for single-choice and true/
 ## Bundled practice questions
 
 The public web version includes 600 theory-practice questions supplied by the project maintainer: 300 single-choice questions with provided answer explanations, and 300 true/false questions without original explanations. Answer keys are reproduced from the supplied files; they are not independently certified or official examination material.
+
+Stable release: **v0.1.0**. [Download the GitHub Release](https://github.com/jin-shanghai/zhiti-learning/releases/latest) or [use the online demo](https://jin-shanghai.github.io/zhiti-learning/).
+
+The MIT license applies to the application code. The included question text and answer explanations do not automatically inherit that license; verify the applicable rights before redistributing them.
