@@ -8,7 +8,7 @@ skinparam ActivityBackgroundColor #e9f8f2
 skinparam ActivityDiamondBackgroundColor #fff4df
 start
 :V6.2 原文件只读审计完成;
-:公开版题库已换成原创演示题;
+:正式版已内置单选300题和判断300题;
 :MIT 商业授权与品牌边界已写入;
 :题库本地导入、隐私和投诉文档已补齐;
 :静态安全与语法检查通过;
@@ -19,6 +19,6 @@ start
 :JavaScript、导入及核心数据回归测试通过;
 :Chromium 桌面与移动视口交互测试通过;
 :GitHub Pages 原生部署成功;
-:正式分支合并后复核自动部署和网站;
+:v0.1.0 正式 Release 创建及离线包发布;
 stop
 @enduml
