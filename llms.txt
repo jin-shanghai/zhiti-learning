@@ -6,7 +6,7 @@
 
 隐私：无需账号和服务器，题库与学习记录保存在当前浏览器。
 
-在线体验（需仓库所有者先启用 GitHub Pages）：https://jin-shanghai.github.io/zhiti-learning/
+在线体验（GitHub Pages 已启用）：https://jin-shanghai.github.io/zhiti-learning/
 源代码：https://github.com/jin-shanghai/zhiti-learning
 题库格式：https://github.com/jin-shanghai/zhiti-learning/blob/main/docs/question-bank-format.md
 
