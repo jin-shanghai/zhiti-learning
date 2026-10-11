@@ -7,3 +7,7 @@ Open `index.html` in a modern browser. No account, server, dependencies, or netw
 Features include multiple-choice, true/false, and multiple-answer practice; sequential or randomized sessions; topic practice; mistakes, bookmarks, notes, reports; local JSON import and backup.
 
 **Code:** MIT License, including commercial use. **Identity:** you may identify the original project as 知题 ZHITI, but do not suggest that a modified version is official or endorsed. User supplied question banks are not covered by the project license; users must have the necessary rights. The study backup includes imported multiple-answer questions, while single-choice and true/false banks should be kept separately. See [NOTICE](NOTICE) and the Chinese [README](README.md).
+
+Online demo (GitHub Pages): https://jin-shanghai.github.io/zhiti-learning/
+
+Study backups now include question-bank fingerprints for single-choice and true/false questions; export these banks separately and restore matching banks before importing study history. Older backups without fingerprints are not accepted to avoid mixing unrelated questions.
