@@ -18,6 +18,8 @@ with tempfile.TemporaryDirectory() as td:
  for i,js in enumerate(p.parts):
   f=Path(td)/f'script-{i}.js';f.write_text(js,encoding='utf-8')
   subprocess.run(['node','--check',str(f)],check=True,capture_output=True,text=True)
+assert (ROOT/'VERSION').read_text(encoding='utf-8').strip()=='1.0.0'
+assert 'V1 正式版' in html
 assert 'zhiti_ai600_v1' in html
 assert 'importCustomBank(event' in html
 assert '[NOTICE](NOTICE)' in (ROOT/'README.md').read_text(encoding='utf-8')
