@@ -1,4 +1,5 @@
 name: Publish V1 Release
+# Official stable Git tag: v1.0.0 (V1 正式版)
 
 on:
   push:
