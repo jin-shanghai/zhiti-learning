@@ -6,4 +6,4 @@ Open `index.html` in a modern browser. No account, server, dependencies, or netw
 
 Features include multiple-choice, true/false, and multiple-answer practice; sequential or randomized sessions; topic practice; mistakes, bookmarks, notes, reports; local JSON import and backup.
 
-**Code:** MIT License, including commercial use. **ZHITI name and logo:** reserved and not licensed by MIT. User supplied question banks are not covered by the project license; users must have the necessary rights. See [NOTICE](NOTICE) and the Chinese [README](README.md).
+**Code:** MIT License, including commercial use. MIT refers to the Massachusetts Institute of Technology; this is the name of a standard license and does not imply affiliation or endorsement. **Brand:** the project name is 知题 ZHITI; its name and logo are reserved and not licensed by MIT. User supplied question banks are not covered by the project license; users must have the necessary rights. See [NOTICE](NOTICE) and the Chinese [README](README.md).
