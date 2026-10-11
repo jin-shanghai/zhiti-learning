@@ -24,7 +24,10 @@ assert '[NOTICE](NOTICE)' in (ROOT/'README.md').read_text(encoding='utf-8')
 assert 'commercial use' in (ROOT/'README.en.md').read_text(encoding='utf-8').lower()
 assert 'MIT License' in (ROOT/'LICENSE').read_text(encoding='utf-8')
 assert '@media(max-width:570px)' in html
-assert 'http://' not in html and 'https://' not in html
+repo_url='https://github.com/jin-shanghai/zhiti-learning'
+assert f'href="{repo_url}"' in html
+assert 'target="_blank" rel="noopener noreferrer"' in html
+assert 'http://' not in html and 'https://' not in html.replace(repo_url,'')
 assert 'async function importCustomBank' in html
 assert 'if(Object.values(data.history' not in html
 import json,re
