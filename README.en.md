@@ -2,7 +2,7 @@
 
 An offline-first quiz practice and learning analytics app. Import a question bank you are authorized to use, practice locally, and review mistakes and reports.
 
-Open `index.html` in a modern browser. No account, server, dependencies, or network connection is required. The demo contains a small set of original sample questions. Study data and imported banks stay in the current browser's local storage; there is no cloud sync.
+Open `index.html` in a modern browser. No account, server, dependencies, or network connection is required. The public version contains 300 single-choice questions and 300 true/false practice questions; answer keys follow the maintainer-provided sources and are not official examination material. Study data and imported banks stay in the current browser's local storage; there is no cloud sync.
 
 Features include multiple-choice, true/false, and multiple-answer practice; sequential or randomized sessions; topic practice; mistakes, bookmarks, notes, reports; local JSON import and backup.
 
@@ -16,6 +16,6 @@ Study backups now include question-bank fingerprints for single-choice and true/
 
 The public web version includes 600 theory-practice questions supplied by the project maintainer: 300 single-choice questions with provided answer explanations, and 300 true/false questions without original explanations. Answer keys are reproduced from the supplied files; they are not independently certified or official examination material.
 
-Stable release: **v0.1.0**. [Download the GitHub Release](https://github.com/jin-shanghai/zhiti-learning/releases/latest) or [use the online demo](https://jin-shanghai.github.io/zhiti-learning/).
+Stable release: **V1 (v1.0.0)**. [Download the GitHub Release](https://github.com/jin-shanghai/zhiti-learning/releases/latest) or [use the online demo](https://jin-shanghai.github.io/zhiti-learning/).
 
 The MIT license applies to the application code. The included question text and answer explanations do not automatically inherit that license; verify the applicable rights before redistributing them.
