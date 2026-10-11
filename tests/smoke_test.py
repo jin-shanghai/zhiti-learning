@@ -20,7 +20,7 @@ with tempfile.TemporaryDirectory() as td:
   subprocess.run(['node','--check',str(f)],check=True,capture_output=True,text=True)
 assert 'zhiti_public_v1' in html
 assert 'importCustomBank(event' in html
-assert '品牌署名' in (ROOT/'README.md').read_text(encoding='utf-8')
+assert '[NOTICE](NOTICE)' in (ROOT/'README.md').read_text(encoding='utf-8')
 assert 'commercial use' in (ROOT/'README.en.md').read_text(encoding='utf-8').lower()
 assert 'MIT License' in (ROOT/'LICENSE').read_text(encoding='utf-8')
 assert '@media(max-width:570px)' in html
