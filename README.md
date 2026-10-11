@@ -8,7 +8,7 @@
 
 **把题库换成你的，它就是你的考试学习站。**
 
-[在线体验](https://jin-shanghai.github.io/zhiti-learning/) · [30 秒开始](#30-秒开始) · [功能一览](#你会得到什么) · [题库格式](docs/question-bank-format.md) · [English](README.en.md)
+[在线体验（启用 Pages 后）](https://jin-shanghai.github.io/zhiti-learning/) · [30 秒开始](#30-秒开始) · [功能一览](#你会得到什么) · [题库格式](docs/question-bank-format.md) · [English](README.en.md)
 
 [![MIT License](https://img.shields.io/badge/license-MIT-087b6d?style=flat-square)](LICENSE)
 ![No Account](https://img.shields.io/badge/account-not_required-087b6d?style=flat-square)
@@ -68,9 +68,9 @@
 
 ## 30 秒开始
 
-### 方法一：在线体验
+### 方法一：启用 Pages 后在线体验
 
-打开 [https://jin-shanghai.github.io/zhiti-learning/](https://jin-shanghai.github.io/zhiti-learning/)。
+当前仓库尚未启用 GitHub Pages，网址暂不可用。仓库所有者需先在 Settings → Pages 将 Source 设为 **GitHub Actions**；随后工作流会部署网页。启用后打开 [在线体验地址](https://jin-shanghai.github.io/zhiti-learning/)。
 
 ### 方法二：完全离线使用
 
