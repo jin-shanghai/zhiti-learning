@@ -157,6 +157,8 @@ flowchart LR
 
 ## 许可与版权
 
+**MIT License** 是开源许可证名称，MIT 指 Massachusetts Institute of Technology（麻省理工学院）；这是通用许可证文本，不表示本项目由麻省理工学院开发、认可或关联。项目品牌统一为 **知题 ZHITI**。
+
 - **程序代码：** [MIT License](LICENSE)，允许商业使用、修改和再分发。
 - **知题 ZHITI 名称与标识：** 不随 MIT 许可证授权，规则见 [NOTICE](NOTICE)。
 - **原创演示题：** 按 MIT 许可证授权。
