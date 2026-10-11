@@ -18,7 +18,7 @@ with tempfile.TemporaryDirectory() as td:
  for i,js in enumerate(p.parts):
   f=Path(td)/f'script-{i}.js';f.write_text(js,encoding='utf-8')
   subprocess.run(['node','--check',str(f)],check=True,capture_output=True,text=True)
-assert 'zhiti_public_v1' in html
+assert 'zhiti_ai600_v1' in html
 assert 'importCustomBank(event' in html
 assert '[NOTICE](NOTICE)' in (ROOT/'README.md').read_text(encoding='utf-8')
 assert 'commercial use' in (ROOT/'README.en.md').read_text(encoding='utf-8').lower()
@@ -31,12 +31,12 @@ assert 'http://' not in html and 'https://' not in html.replace(repo_url,'')
 assert 'async function importCustomBank' in html
 assert 'if(Object.values(data.history' not in html
 import json,re
-for name,min_count in [('QUESTIONS',1),('JUDGMENTS',1)]:
+for name,min_count in [('QUESTIONS',300),('JUDGMENTS',300)]:
  match=re.search(r'let '+name+r'=(\[.*?\]);',html)
  assert match, f'{name} bank missing'
- rows=json.loads(match.group(1));assert min_count<=len(rows)<=10
+ rows=json.loads(match.group(1));assert len(rows)==min_count
  ids=[str(row['id']) for row in rows];assert len(ids)==len(set(ids))
  for row in rows:
   assert row.get('q') and row.get('answer') and len(row.get('options',[]))>=2
 assert 'zhiti_v6_ai600' not in html
-print('PASS: embedded JavaScript syntax; demo dataset redaction; local import hooks; license/docs; mobile breakpoint')
+print('PASS: embedded JavaScript syntax; 600-question bundled bank integrity; local import hooks; license/docs; mobile breakpoint')
