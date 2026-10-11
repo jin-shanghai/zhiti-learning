@@ -2,7 +2,7 @@ const {chromium}=require('playwright');const assert=require('assert');
 (async()=>{
  const browser=await chromium.launch({headless:true});
  const page=await browser.newPage({viewport:{width:1440,height:900}});
- const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('dialog',dialog=>dialog.accept());
  await page.goto('http://127.0.0.1:8765/index.html',{waitUntil:'domcontentloaded'});
  assert((await page.title()).includes('知题'));
  await page.evaluate(()=>{trainingKind='mixed';trainingOrder='sequential';trainingSize='all';startSession('sequential',{kind:'mixed',size:'all'});});
