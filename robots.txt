@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jin-shanghai.github.io/zhiti-learning/sitemap.xml
