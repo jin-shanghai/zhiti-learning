@@ -30,6 +30,16 @@ const {chromium}=require('playwright');const assert=require('assert');
  await mobile.evaluate(()=>setPage('trainingSetup'));
  assert(await mobile.locator('#app').innerText().then(t=>t.includes('自定义练习')));
  assert.deepStrictEqual(errors,[]);assert.deepStrictEqual(mobileErrors,[]);
+ await page.evaluate(()=>{
+  QUESTIONS[0].category='测试\" onmouseover=\"window.__injected=1 <img src=x onerror=window.__injected=1>';
+  CATEGORIES=[...new Set([...QUESTIONS,...JUDGMENTS,...data.multiQuestions].map(q=>q.category))];
+  topicTab='topic';topicKind='mc';setPage('topics');
+ });
+ assert.equal(await page.evaluate(()=>window.__injected||false),false,'category must not inject an event handler');
+ const customCard=page.locator('.module-card').filter({hasText:'测试'}).first();
+ assert.equal(await customCard.count(),1,'custom category should display');
+ await customCard.getByRole('button',{name:/开始训练/}).click();
+ assert(await page.locator('#app').innerText().then(t=>t.includes('专项')),'custom category action must remain clickable');
  await browser.close();
  console.log('PASS browser: mixed-session report, multi-bank reset, report, mock sizes, mobile view, no runtime errors');
 })().catch(e=>{console.error(e);process.exit(1)});
