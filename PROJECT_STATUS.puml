@@ -16,11 +16,9 @@ start
 :README 产品介绍与 AI 训练师搜索词已补齐;
 :四张真实产品截图已自动生成并发布;
 :robots、sitemap 与 llms 发现入口已加入;
-:GitHub Actions 自动测试通过;
-if (GitHub Pages 已首次启用?) then (是)
-  :在线体验发布完成;
-else (否)
-  :仓库所有者在 Pages 设置选择 GitHub Actions;
-endif
+:JavaScript、导入及核心数据回归测试通过;
+:Chromium 桌面与移动视口交互测试通过;
+:GitHub Pages 原生部署成功;
+:正式分支合并后复核自动部署和网站;
 stop
 @enduml
