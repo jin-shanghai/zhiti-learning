@@ -19,6 +19,6 @@ start
 :JavaScript、导入及核心数据回归测试通过;
 :Chromium 桌面与移动视口交互测试通过;
 :GitHub Pages 原生部署成功;
-:v0.1.0 正式 Release 创建及离线包发布;
+:V1 正式版 (v1.0.0) Release 创建及离线包发布;
 stop
 @enduml
