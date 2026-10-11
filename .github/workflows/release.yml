@@ -97,8 +97,8 @@ jobs:
             exit 1
           fi
           gh release create "$tag" \
-            "dist/zhiti-${{ steps.version.outputs.version }}-offline.html" \
-            "dist/zhiti-${{ steps.version.outputs.version }}-offline.zip" \
+            "dist/zhiti-v${{ steps.version.outputs.version }}-offline.html" \
+            "dist/zhiti-v${{ steps.version.outputs.version }}-offline.zip" \
             dist/SHA256SUMS.txt \
             --repo "$GITHUB_REPOSITORY" \
             --target "$GITHUB_SHA" \
