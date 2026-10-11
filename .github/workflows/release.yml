@@ -94,8 +94,8 @@ jobs:
           set -euo pipefail
           tag="${{ steps.version.outputs.tag }}"
           if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
-            echo "Release $tag already exists; refusing to overwrite it."
-            exit 1
+            echo "Release $tag already exists; publication was already successful; leaving it unchanged."
+            exit 0
           fi
           gh release create "$tag" \
             "dist/zhiti-v${{ steps.version.outputs.version }}-offline.html" \
