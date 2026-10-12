@@ -55,6 +55,7 @@ const assert=require('assert');
  assert(await page.locator('.ai-coach').innerText().then(text=>text.includes('配置自己的 API Key')));
  await page.evaluate(()=>startSession('single',2));
  const secondAnswer=await page.evaluate(()=>byId(2).answer);
+ assert.equal(await page.evaluate(()=>AUTO_NEXT_DELAY_MS),450,'correct-answer delay should be 0.45 seconds');
  await page.locator('.option').nth(secondAnswer.charCodeAt(0)-65).click();
  await page.waitForFunction(()=>page==='sessionResult',null,{timeout:2500});
  assert.equal(calls.length,4,'correct answer must not call API');

@@ -417,6 +417,7 @@ function safeAIConfig(raw){
  return {provider,model:typeof raw?.model==='string'?raw.model.slice(0,120):fallback.model,baseUrl:typeof raw?.baseUrl==='string'?raw.baseUrl.slice(0,500):fallback.baseUrl};
 }
 function cancelAutoNext(){if(autoNextTimer!==null){clearTimeout(autoNextTimer);autoNextTimer=null}}
+const AUTO_NEXT_DELAY_MS=450;
 function scheduleAutoNext(session,id){
  cancelAutoNext();
  if(!data.autoNextCorrect)return;
@@ -424,7 +425,7 @@ function scheduleAutoNext(session,id){
  autoNextTimer=setTimeout(()=>{
   autoNextTimer=null;
   if(page==='practice'&&data.session===session&&!session.finished&&session.type!=='mock'&&session.idx===index&&session.ids[index]===id&&session.answers[id]===byId(id)?.answer)moveQuestion(1);
- },900);
+ },AUTO_NEXT_DELAY_MS);
 }
 function toggleAutoNext(){data.autoNextCorrect=!data.autoNextCorrect;persist();if(!data.autoNextCorrect)cancelAutoNext();render()}
 function renderAutoNextToggle(){return `<label class="auto-next-toggle"><input type="checkbox" ${data.autoNextCorrect?'checked':''} onchange="toggleAutoNext()">正确后自动下一题</label>`}
