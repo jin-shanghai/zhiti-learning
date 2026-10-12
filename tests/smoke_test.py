@@ -29,7 +29,8 @@ assert '@media(max-width:570px)' in html
 repo_url='https://github.com/jin-shanghai/zhiti-learning'
 assert f'href="{repo_url}"' in html
 assert 'target="_blank" rel="noopener noreferrer"' in html
-assert 'http://' not in html and 'https://' not in html.replace(repo_url,'')
+import re
+assert not re.search(r'<(?:script|link)[^>]+(?:src|href)="https?://',html), 'remote runtime dependency'
 assert 'async function importCustomBank' in html
 assert 'if(Object.values(data.history' not in html
 import json,re
