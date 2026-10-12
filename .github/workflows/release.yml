@@ -100,6 +100,6 @@ jobs:
             dist/SHA256SUMS.txt \
             --repo "$GITHUB_REPOSITORY" \
             --target "$GITHUB_SHA" \
-            --title "知题 ZHITI · v$version" \
+            --title "知题 ZHITI · v${{ steps.version.outputs.version }}" \
             --notes-file RELEASE_NOTES.md \
             --latest
