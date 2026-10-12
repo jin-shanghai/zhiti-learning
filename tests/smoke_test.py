@@ -18,7 +18,10 @@ with tempfile.TemporaryDirectory() as td:
  for i,js in enumerate(p.parts):
   f=Path(td)/f'script-{i}.js';f.write_text(js,encoding='utf-8')
   subprocess.run(['node','--check',str(f)],check=True,capture_output=True,text=True)
-assert (ROOT/'VERSION').read_text(encoding='utf-8').strip()=='1.0.0'
+import re
+version=(ROOT/'VERSION').read_text(encoding='utf-8').strip()
+assert re.fullmatch(r'\d+\.\d+\.\d+',version), 'invalid release version'
+assert f'v{version}' in (ROOT/'README.md').read_text(encoding='utf-8')
 assert 'V1 正式版' in html
 assert 'zhiti_ai600_v1' in html
 assert 'importCustomBank(event' in html
@@ -29,11 +32,10 @@ assert '@media(max-width:570px)' in html
 repo_url='https://github.com/jin-shanghai/zhiti-learning'
 assert f'href="{repo_url}"' in html
 assert 'target="_blank" rel="noopener noreferrer"' in html
-import re
 assert not re.search(r'<(?:script|link)[^>]+(?:src|href)="https?://',html), 'remote runtime dependency'
 assert 'async function importCustomBank' in html
 assert 'if(Object.values(data.history' not in html
-import json,re
+import json
 for name,min_count in [('QUESTIONS',300),('JUDGMENTS',300)]:
  match=re.search(r'let '+name+r'=(\[.*?\]);',html)
  assert match, f'{name} bank missing'

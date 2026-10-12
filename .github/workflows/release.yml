@@ -1,5 +1,4 @@
-name: Publish V1 Release
-# Official stable Git tag: v1.0.0 (V1 正式版)
+name: Publish Release
 
 on:
   push:
@@ -37,7 +36,7 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Confirm stable release version
+      - name: Confirm release version
         id: version
         shell: bash
         run: |
@@ -47,10 +46,6 @@ jobs:
             echo "Not a stable semantic version: $version" >&2
             exit 1
           fi
-          if [[ "$version" != "1.0.0" ]]; then
-            echo "This workflow is for the V1 first formal release only." >&2
-            exit 1
-          fi
           echo "version=$version" >> "$GITHUB_OUTPUT"
           echo "tag=v$version" >> "$GITHUB_OUTPUT"
 
@@ -58,6 +53,7 @@ jobs:
         run: |
           python3 tests/smoke_test.py
           node tests/regression_test.js
+          node tests/import_test.js
 
       - name: Install headless Chromium for interaction test
         run: |
@@ -68,6 +64,7 @@ jobs:
         run: |
           python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/zhiti-e2e.log 2>&1 &
           node tests/browser_e2e.js
+          node tests/ai_features_e2e.js
 
       - name: Package offline release downloads
         shell: bash
@@ -86,7 +83,7 @@ jobs:
           test -s "dist/zhiti-v$version-offline.zip"
           cat dist/SHA256SUMS.txt
 
-      - name: Publish official GitHub Release
+      - name: Publish GitHub Release
         shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -103,6 +100,6 @@ jobs:
             dist/SHA256SUMS.txt \
             --repo "$GITHUB_REPOSITORY" \
             --target "$GITHUB_SHA" \
-            --title "知题 ZHITI · V1 正式版（600道理论练习题）" \
-            --notes-file RELEASE_NOTES_V1.md \
+            --title "知题 ZHITI · v$version" \
+            --notes-file RELEASE_NOTES.md \
             --latest
