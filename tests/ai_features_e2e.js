@@ -1,16 +1,21 @@
 const {chromium}=require('playwright');
 const assert=require('assert');
+const fs=require('fs');
+const path=require('path');
 (async()=>{
  const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_PATH||undefined});
  const page=await browser.newPage({viewport:{width:1440,height:900}});
- const errors=[],calls=[];
+ const errors=[],calls=[];let releaseFirstCoach,markFirstCoachStarted;
+ const firstCoachStarted=new Promise(resolve=>{markFirstCoachStarted=resolve});
  page.on('pageerror',error=>errors.push(error.message));
  page.on('dialog',dialog=>dialog.accept());
  await page.route('https://api.openai.com/**',async route=>{
   const request=route.request();
   if(request.method()==='OPTIONS')return route.fulfill({status:204,headers:{'Access-Control-Allow-Origin':'*','Access-Control-Allow-Methods':'POST, OPTIONS','Access-Control-Allow-Headers':'authorization, content-type'}});
   const body=request.postDataJSON();calls.push(body);
-  const content=body.messages.at(-1).content.includes('连接成功')?'连接成功':body.messages.at(-1).content.includes('请分析这道练习题')?'解析：参考答案有待核对，逐项检查。':'追问回答：B 与题干不符。';
+  const isCoach=body.messages.at(-1).content.includes('请分析这道练习题');
+  if(isCoach&&!releaseFirstCoach){markFirstCoachStarted();await new Promise(resolve=>{releaseFirstCoach=resolve})}
+  const content=body.messages.at(-1).content.includes('连接成功')?'连接成功':isCoach?'解析：参考答案有待核对，逐项检查。':'追问回答：B 与题干不符。';
   await route.fulfill({status:200,contentType:'application/json',headers:{'Access-Control-Allow-Origin':'*'},body:JSON.stringify({choices:[{message:{content}}]})});
  });
  await page.goto('http://127.0.0.1:8765/index.html',{waitUntil:'domcontentloaded'});
@@ -28,11 +33,19 @@ const assert=require('assert');
  assert(!(await page.evaluate(()=>localStorage.getItem(LS_KEY))).includes('test-secret-not-real'),'key must never appear in persistent study data');
  await page.evaluate(()=>startSession('single',1));
  await page.locator('.option').first().click();
+ await firstCoachStarted;
+ assert(await page.locator('#ai-followup').isVisible(),'follow-up input should appear while first explanation is pending');
+ await page.locator('#ai-followup').fill('为什么 B 不对？');
+ assert.equal(await page.getByRole('button',{name:'正在生成…'}).isEnabled(),false,'follow-up waits for the first explanation');
+ assert((await page.locator('.ai-coach').innerText()).includes('最长约 1 分钟'),'pending request should explain expected wait');
+ assert(await page.getByRole('button',{name:'取消等待'}).isVisible(),'pending request should be cancellable');
+ if(process.env.ZHITI_AI_SCREENSHOTS_DIR){fs.mkdirSync(process.env.ZHITI_AI_SCREENSHOTS_DIR,{recursive:true});await page.screenshot({path:path.join(process.env.ZHITI_AI_SCREENSHOTS_DIR,'ai-coach-waiting.png'),fullPage:true,animations:'disabled'})}
+ releaseFirstCoach();
  await page.waitForFunction(()=>!!data.aiCoach[1]);
  assert.equal(await page.evaluate(()=>data.session.idx),0,'wrong answer stays on question');
  assert.equal(calls.length,2,'connection test plus first wrong answer');
  await page.locator('.ai-coach').getByText(/解析：/).waitFor();
- await page.locator('#ai-followup').fill('为什么 B 不对？');
+ assert.equal(await page.locator('#ai-followup').inputValue(),'为什么 B 不对？','draft should survive first explanation render');
  await page.getByRole('button',{name:'发送追问'}).click();
  await page.waitForFunction(()=>(data.aiCoach[1]?.conversation||[]).length===1);
  assert.equal(calls.length,3,'follow-up must call API');

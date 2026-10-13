@@ -24,7 +24,7 @@ final class ZhitiApp: NSObject, NSApplicationDelegate, WKScriptMessageHandler, W
             error?p.reject(new Error(error)):p.resolve(result);
           }});
           Object.defineProperty(window,'zhitiNative',{value:Object.freeze({request:(op,args={})=>new Promise((resolve,reject)=>{
-            const id=epoch+'-'+(++next);const timer=setTimeout(()=>{pending.delete(id);reject(new Error('本机操作超时，请重试'))},90000);
+            const id=epoch+'-'+(++next);const timer=setTimeout(()=>{pending.delete(id);reject(new Error('本机操作超时，请重试'))},70000);
             pending.set(id,{resolve,reject,timer});window.webkit.messageHandlers.zhitiSecure.postMessage({id,op,args});
           })})});
         })();
@@ -87,6 +87,7 @@ final class ZhitiApp: NSObject, NSApplicationDelegate, WKScriptMessageHandler, W
                 try service.save(connection); reply(id, result: try service.snapshot())
             case "unlock": reply(id, result: try service.unlock())
             case "lock": service.lock(); reply(id, result: ["locked": true])
+            case "cancel": service.cancel(); reply(id, result: ["cancelled": true])
             case "delete":
                 let alert = NSAlert(); alert.messageText = "删除已保存的 AI 密钥？"
                 alert.informativeText = "将从系统钥匙串删除。学习记录和 AI 解析会保留；服务商后台的 Key 不会自动撤销。"

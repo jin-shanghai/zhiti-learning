@@ -137,6 +137,13 @@ final class SecureAIService {
             tasks.removeAll()
         }
     }
+    func cancel() {
+        queue.sync {
+            generation += 1
+            for task in tasks.values { task.cancel() }
+            tasks.removeAll()
+        }
+    }
     func delete() throws -> [String: Any] {
         lock()
         try store.delete()
@@ -171,12 +178,27 @@ final class SecureAIService {
             let id = UUID(), epoch = generation
             let task = session.dataTask(with: request) { [weak self] bytes, response, error in
                 guard let self = self else { return }
-                let cancelled = self.queue.sync { () -> Bool in
+                let state = self.queue.sync { () -> (cancelled: Bool, locked: Bool) in
                     self.tasks.removeValue(forKey: id)
-                    return self.generation != epoch
+                    return (self.generation != epoch, self.locked)
                 }
-                if cancelled || error != nil {
-                    completion(.failure(SecureAIError.invalid(cancelled ? "密钥已锁定，请重新解锁。" : "请求失败或超时，请检查网络。"))); return
+                if state.cancelled {
+                    completion(.failure(SecureAIError.invalid(state.locked ? "密钥已锁定，请重新解锁。" : "请求已取消，可以重新生成。"))); return
+                }
+                if let urlError = error as? URLError {
+                    let message: String
+                    switch urlError.code {
+                    case .timedOut: message = "请求超过 45 秒，请检查网络或接口后重试。"
+                    case .cannotFindHost, .cannotConnectToHost, .networkConnectionLost, .notConnectedToInternet:
+                        message = "无法连接服务商，请检查网络和接口地址。"
+                    case .secureConnectionFailed, .serverCertificateUntrusted, .serverCertificateHasBadDate, .serverCertificateHasUnknownRoot:
+                        message = "服务商的安全连接验证失败，请勿继续使用该接口。"
+                    default: message = "请求失败，请检查网络、接口和服务商状态。"
+                    }
+                    completion(.failure(SecureAIError.invalid(message))); return
+                }
+                if error != nil {
+                    completion(.failure(SecureAIError.invalid("请求失败，请检查网络、接口和服务商状态。"))); return
                 }
                 guard let response = response as? HTTPURLResponse, (200..<300).contains(response.statusCode) else {
                     let code = (response as? HTTPURLResponse)?.statusCode ?? 0

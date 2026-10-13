@@ -86,11 +86,23 @@ final class StubProtocol: URLProtocol {
         check(didRejectRedirect, "redirect delegate permits redirection")
         StubProtocol.responseCode = 200; StubProtocol.hold = true
         let cancelled = DispatchSemaphore(value: 0)
+        var cancelMessage = ""
         service.request([["role": "user", "content": "cancel"]]) { result in
-            if case .success = result { check(false, "locked request completed") }; cancelled.signal()
+            if case .success = result { check(false, "cancelled request completed") }
+            if case let .failure(error) = result { cancelMessage = error.localizedDescription }
+            cancelled.signal()
+        }
+        service.cancel()
+        check(cancelled.wait(timeout: .now()+5) == .success, "cancel did not stop native task")
+        check(cancelMessage.contains("取消"), "cancel returned misleading error")
+        check(!service.locked, "cancel unexpectedly locked credentials")
+        StubProtocol.hold = true
+        let lockedRequest = DispatchSemaphore(value: 0)
+        service.request([["role": "user", "content": "lock"]]) { result in
+            if case .success = result { check(false, "locked request completed") }; lockedRequest.signal()
         }
         service.lock()
-        check(cancelled.wait(timeout: .now()+5) == .success, "lock did not cancel native task")
+        check(lockedRequest.wait(timeout: .now()+5) == .success, "lock did not cancel native task")
         check(service.locked, "service remains unlocked")
         _ = try service.unlock()
         check(!service.locked, "unlock failed")
