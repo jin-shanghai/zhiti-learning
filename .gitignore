@@ -5,3 +5,5 @@
 .env.*
 !.env.example
 *.study-backup.json
+/build/
+/node_modules/

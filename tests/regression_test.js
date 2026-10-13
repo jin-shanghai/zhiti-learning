@@ -14,9 +14,12 @@ assert.equal(ctx.data.seqCursorMixed,0,'fully finished mixed session wraps to 0'
 ctx.data.session=null;
 ctx.freshData=()=>({history:{},bookmarks:[],comments:{},multiQuestions:[],sessions:[],exams:[],session:null});
 ctx.confirm=()=>true;ctx.toast=()=>{};ctx.setPage=()=>{};
+ctx.safeAIConfig=raw=>raw||{};
+ctx.data.aiConfig={provider:'deepseek',model:'test-model',baseUrl:'https://api.deepseek.com'};
 vm.runInContext(section('function resetData(){','function toggleMobile(){'),ctx);
 ctx.resetData();
 assert.equal(ctx.data.multiQuestions.length,1,'reset must preserve imported multiple-answer bank');
+assert.equal(ctx.data.aiConfig.provider,'deepseek','study reset must preserve bound AI configuration');
 assert(html.includes("bankFingerprints:{mc:bankFingerprint('mc')"),'study backup requires bank fingerprints');
 assert(html.includes("parsed.bankFingerprints.mc!==bankFingerprint('mc')"),'restore must validate MC bank identity');
 assert(html.includes("escapeHTML(current.pattern)"),'imported pattern must be HTML-escaped');
