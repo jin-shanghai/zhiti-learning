@@ -85,9 +85,10 @@ const path=require('path');
  await page.locator('#ai-unlock-password').fill(password);await page.getByRole('button',{name:'解锁密钥'}).click();await page.waitForFunction(()=>hasAIKey());
  await page.clock.install();await page.evaluate(()=>touchAIKey());await page.clock.fastForward(10*60*1000+1);
  assert.equal(await page.evaluate(()=>hasAIKey()),false,'idle session must lock');
- await page.setViewportSize({width:390,height:844});
+ await page.emulateMedia({reducedMotion:'reduce'});await page.setViewportSize({width:390,height:844});
  assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'locked AI settings must fit mobile width');
- if(process.env.ZHITI_SECURITY_SCREENSHOTS_DIR){fs.mkdirSync(process.env.ZHITI_SECURITY_SCREENSHOTS_DIR,{recursive:true});await page.screenshot({path:path.join(process.env.ZHITI_SECURITY_SCREENSHOTS_DIR,'secure-ai-web.png'),fullPage:true});}
+ assert(await page.evaluate(()=>document.getElementById('sidebar').getBoundingClientRect().right<=1),'mobile menu must remain closed');
+ if(process.env.ZHITI_SECURITY_SCREENSHOTS_DIR){fs.mkdirSync(process.env.ZHITI_SECURITY_SCREENSHOTS_DIR,{recursive:true});await page.screenshot({path:path.join(process.env.ZHITI_SECURITY_SCREENSHOTS_DIR,'secure-ai-web.png'),fullPage:true,animations:'disabled'});}
  await page.getByRole('button',{name:'删除密钥'}).first().click();
  await page.waitForFunction(()=>localStorage.getItem(AI_VAULT_KEY)===null);
  assert(await page.evaluate(()=>!!data.aiCoach[1]),'delete key preserves offline explanations');
