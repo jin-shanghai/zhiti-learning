@@ -24,4 +24,25 @@ assert(html.includes("bankFingerprints:{mc:bankFingerprint('mc')"),'study backup
 assert(html.includes("parsed.bankFingerprints.mc!==bankFingerprint('mc')"),'restore must validate MC bank identity');
 assert(html.includes("escapeHTML(current.pattern)"),'imported pattern must be HTML-escaped');
 assert(!html.includes("'\/300'"),'report must use dynamic bank length');
-console.log('PASS: mixed session, preserve imported bank, fingerprint identity and escaped labels');
+
+const migrationCode=`
+const LS_KEY='zhiti_ai600_v1';
+const BANK_MC_KEY='zhiti_user_mc_v1',BANK_JUDGE_KEY='zhiti_user_judge_v1';
+const JUDGMENT_BANK_VERSION='zhiti-ai600-judge-explained-20261013';
+${section('function freshData(){','migrate();')}
+migrate();this.result=data;`;
+function migrateStored(stored,customJudge){
+ const values=new Map([["zhiti_ai600_v1",JSON.stringify(stored)]]);if(customJudge)values.set('zhiti_user_judge_v1',JSON.stringify(customJudge));
+ const migrationCtx={localStorage:{getItem:key=>values.get(key)||null},safeAIConfig:raw=>raw||{},Date,JSON,Object,Array,String,Number,console};
+ vm.createContext(migrationCtx);vm.runInContext(migrationCode,migrationCtx);return migrationCtx.result;
+}
+const oldData={version:7,judgmentBankVersion:'zhiti-ai600-20250527',history:{1:[{ok:true}],J001:[{ok:false}]},bookmarks:[1,'J001'],multiQuestions:[],correctEver:{1:true,J001:true},session:{finished:false,ids:[1,'J001'],answers:{1:'A',J001:'B'}},exams:[{ids:['J001'],answers:{J001:'B'}}],sessions:[{id:'old-report',ids:[1,'J001'],answers:{1:'A',J001:'B'}}],comments:{1:[{text:'mc'}],J001:[{text:'judge'}]},nickname:'我',seqCursor:1,seqCursorJudge:12,seqCursorMixed:9,legacyJudgments:[],autoNextCorrect:true,aiConfig:{},aiCoach:{J001:{explanation:'old',fingerprint:'old'}}};
+const migrated=migrateStored(oldData);
+assert.equal(migrated.judgmentBankVersion,'zhiti-ai600-judge-explained-20261013');
+assert.equal(migrated.version,8);assert(migrated.history[1]);assert(!migrated.history.J001,'old judgment history must leave the active bank');
+assert(!migrated.correctEver.J001);assert(!migrated.aiCoach.J001);assert.equal(migrated.session,null);assert.equal(migrated.sessions.length,0);assert.equal(migrated.exams.length,0);
+assert.equal(migrated.seqCursorJudge,0);assert.equal(migrated.seqCursorMixed,0);assert.equal(migrated.legacyJudgments.length,1);
+assert(migrated.legacyJudgments[0].history.J001);assert(migrated.legacyJudgments[0].aiCoach.J001);assert.equal(migrated.legacyJudgments[0].bank,'判断题旧版300题（无逐题解析）');
+const customPreserved=migrateStored(oldData,[{id:'J001',q:'custom'}]);
+assert(customPreserved.history.J001,'a locally imported judgment bank must keep its matching history');assert.equal(customPreserved.legacyJudgments.length,0);
+console.log('PASS: mixed session, bank migration archive, preserve custom bank, fingerprint identity and escaped labels');
