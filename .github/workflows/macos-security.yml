@@ -1,0 +1,13 @@
+name: macOS AI security
+on:
+  pull_request:
+  push:
+    branches: [main]
+    paths: ['desktop/macos/**', 'scripts/*macos*.sh', 'index.html']
+jobs:
+  security:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash scripts/test-macos-security.sh
+      - run: bash scripts/build-macos-app.sh

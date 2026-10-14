@@ -30,8 +30,8 @@ const path = require('path');
       J004: [{ at: now - 4500000, answer: 'A', ok: false }],
     };
     const demo = {
-      version: 6,
-      judgmentBankVersion: 'zhiti-demo-v1',
+      version: 8,
+      judgmentBankVersion: 'zhiti-ai600-judge-explained-20261013',
       history,
       bookmarks: [2, 4, 'J002'],
       multiQuestions: [],
@@ -51,7 +51,7 @@ const path = require('path');
       nickname: '我', seqCursor: 0, seqCursorJudge: 0, seqCursorMixed: 0,
       joinedAt: now - 86400000, legacyJudgments: [],
     };
-    localStorage.setItem('zhiti_public_v1', JSON.stringify(demo));
+    localStorage.setItem('zhiti_ai600_v1', JSON.stringify(demo));
   });
   await page.reload({ waitUntil: 'networkidle' });
 
