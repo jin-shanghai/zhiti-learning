@@ -3,7 +3,11 @@ const fs = require('fs');
 const path = require('path');
 
 (async () => {
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch({
+    headless: true,
+    executablePath: process.env.CHROME_PATH || undefined,
+    args: process.platform === 'linux' ? ['--no-sandbox', '--disable-setuid-sandbox'] : [],
+  });
   const page = await browser.newPage({
     viewport: { width: 1440, height: 980 },
     deviceScaleFactor: 1,
@@ -30,8 +34,8 @@ const path = require('path');
       J004: [{ at: now - 4500000, answer: 'A', ok: false }],
     };
     const demo = {
-      version: 6,
-      judgmentBankVersion: 'zhiti-demo-v1',
+      version: 7,
+      judgmentBankVersion: 'zhiti-ai600-20250527',
       history,
       bookmarks: [2, 4, 'J002'],
       multiQuestions: [],
@@ -51,9 +55,17 @@ const path = require('path');
       nickname: '我', seqCursor: 0, seqCursorJudge: 0, seqCursorMixed: 0,
       joinedAt: now - 86400000, legacyJudgments: [],
     };
-    localStorage.setItem('zhiti_public_v1', JSON.stringify(demo));
+    localStorage.setItem('zhiti_ai600_v1', JSON.stringify(demo));
   });
   await page.reload({ waitUntil: 'networkidle' });
+
+  const seeded = await page.evaluate(() => ({
+    historyCount: Object.keys(data.history || {}).length,
+    sessionCount: (data.sessions || []).length,
+  }));
+  if (seeded.historyCount !== 10 || seeded.sessionCount !== 1) {
+    throw new Error(`Screenshot demo data did not load: ${JSON.stringify(seeded)}`);
+  }
 
   await page.evaluate(() => {
     startSession('choice', 'all');
