@@ -6,6 +6,12 @@ on:
     paths:
       - VERSION
       - .github/workflows/release.yml
+  pull_request:
+    paths:
+      - VERSION
+      - .github/workflows/release.yml
+      - tests/**
+      - index.html
   workflow_dispatch:
 
 permissions:
@@ -17,7 +23,6 @@ concurrency:
 
 jobs:
   verify-and-release:
-    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout exact release commit
@@ -54,6 +59,7 @@ jobs:
           python3 tests/smoke_test.py
           node tests/regression_test.js
           node tests/import_test.js
+          python3 tests/ci_config_test.py
 
       - name: Install headless Chromium for interaction test
         run: |
@@ -84,6 +90,7 @@ jobs:
           cat dist/SHA256SUMS.txt
 
       - name: Publish GitHub Release
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

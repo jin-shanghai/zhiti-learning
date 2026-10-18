@@ -2,6 +2,11 @@ name: Check
 on:
   push:
   pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
 jobs:
   smoke-test:
     runs-on: ubuntu-latest
@@ -13,5 +18,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: python3 tests/smoke_test.py
-      - run: node tests/regression_test.js
+      - name: Validate bundled app and question banks
+        run: python3 tests/smoke_test.py
+      - name: Validate learning data regressions
+        run: node tests/regression_test.js
+      - name: Validate question-bank imports
+        run: node tests/import_test.js
+      - name: Validate CI and release configuration
+        run: python3 tests/ci_config_test.py
