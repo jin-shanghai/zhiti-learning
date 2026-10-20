@@ -15,7 +15,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: publish-stable-release
@@ -23,13 +23,15 @@ concurrency:
 
 jobs:
   verify-and-release:
+    permissions:
+      contents: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && 'write' || 'read' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout exact release commit
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          persist-credentials: true
+          persist-credentials: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' }}
 
       - name: Setup Python
         uses: actions/setup-python@v5
