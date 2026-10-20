@@ -34,8 +34,8 @@ const path = require('path');
       J004: [{ at: now - 4500000, answer: 'A', ok: false }],
     };
     const demo = {
-      version: 7,
-      judgmentBankVersion: 'zhiti-ai600-20250527',
+      version: 8,
+      judgmentBankVersion: 'zhiti-ai600-judge-explained-20261013',
       history,
       bookmarks: [2, 4, 'J002'],
       multiQuestions: [],

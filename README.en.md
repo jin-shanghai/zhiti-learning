@@ -6,7 +6,7 @@ Open `index.html` in a modern browser. Core practice needs no account, server, d
 
 Features include multiple-choice, true/false, and multiple-answer practice; sequential or randomized sessions; topic practice; mistakes, bookmarks, notes, reports; local JSON import and backup. Correct answers advance automatically after about 0.45 seconds by default; incorrect answers remain visible for review. Mock exams reveal answers only after submission.
 
-An optional AI coach explains the first incorrect attempt, caches the explanation locally, and supports follow-up questions. Users supply their own OpenAI, DeepSeek, Qwen, or compatible API key and pay their provider directly. The key stays in page memory by default, with optional storage for the current browser session; it is never included in study backups or sent to a ZHITI server. AI requests need a network connection, and browser access depends on the provider's CORS policy. Local browser storage is not an absolute security guarantee.
+An optional AI coach explains the first incorrect attempt, caches the explanation locally, and supports follow-up questions. Users supply their own OpenAI, DeepSeek, Qwen, or compatible API key and pay their provider directly. The key stays in page memory by default; optional encrypted storage requires a separate unlock password and locks on reload. Neither key nor password enters study backups or a ZHITI server. Encryption protects stored data, but cannot protect an unlocked page from malicious scripts or extensions. An optional macOS app stores the key in the system Keychain and sends API requests natively without returning the key to its web interface. Browser requests depend on provider CORS policies. See [macOS security notes](desktop/macos/README.md).
 
 **Code:** MIT License, including commercial use. **Identity:** you may identify the original project as 知题 ZHITI, but do not suggest that a modified version is official or endorsed. User supplied question banks are not covered by the project license; users must have the necessary rights. The study backup includes imported multiple-answer questions, while single-choice and true/false banks should be kept separately. See [NOTICE](NOTICE) and the Chinese [README](README.md).
 
@@ -16,8 +16,8 @@ Study backups now include question-bank fingerprints for single-choice and true/
 
 ## Bundled practice questions
 
-The public web version includes 600 theory-practice questions supplied by the project maintainer: 300 single-choice questions with provided answer explanations, and 300 true/false questions without original explanations. Answer keys are reproduced from the supplied files; they are not independently certified or official examination material.
+The public web version includes 600 theory-practice questions supplied by the project maintainer: 300 single-choice questions and 300 true/false questions, both with supplied explanations. Eleven true/false questions carry an additional review warning because their reference answers may depend on disputed wording, outdated software behavior, or a different legal or technical interpretation. Answer keys are reproduced from the supplied files; they are not independently certified or official examination material.
 
-Stable release: **v1.1.0**. [Download the GitHub Release](https://github.com/jin-shanghai/zhiti-learning/releases/latest) or [use the online demo](https://jin-shanghai.github.io/zhiti-learning/).
+Stable release: **v1.2.0**. [Download the GitHub Release](https://github.com/jin-shanghai/zhiti-learning/releases/latest) or [use the online demo](https://jin-shanghai.github.io/zhiti-learning/).
 
 The MIT license applies to the application code. The included question text and answer explanations do not automatically inherit that license; verify the applicable rights before redistributing them.

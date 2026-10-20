@@ -74,6 +74,7 @@ jobs:
           python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/zhiti-e2e.log 2>&1 &
           node tests/browser_e2e.js
           node tests/ai_features_e2e.js
+          node tests/secure_ai_e2e.js
 
       - name: Package offline release downloads
         shell: bash
