@@ -15,7 +15,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: publish-stable-release
@@ -23,13 +23,16 @@ concurrency:
 
 jobs:
   verify-and-release:
+    permissions:
+      contents: read
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-    steps:
+    steps: &audit_steps
       - name: Checkout exact release commit
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          persist-credentials: true
+          persist-credentials: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' }}
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -110,3 +113,10 @@ jobs:
             --title "知题 ZHITI · v${{ steps.version.outputs.version }}" \
             --notes-file RELEASE_NOTES.md \
             --latest
+
+  verify-and-release-main:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps: *audit_steps

@@ -15,7 +15,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: refresh-screenshots-${{ github.ref }}
@@ -23,10 +23,15 @@ concurrency:
 
 jobs:
   capture:
+    permissions:
+      contents: read
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    steps:
+    steps: &audit_steps
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' }}
       - uses: actions/setup-node@v4
         with:
           node-version: 24
@@ -59,3 +64,10 @@ jobs:
             echo 'Unable to publish refreshed screenshots after 3 attempts.' >&2
             exit 1
           fi
+
+  capture-main:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps: *audit_steps
