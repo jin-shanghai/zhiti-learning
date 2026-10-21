@@ -52,6 +52,10 @@ for required in (
     'id-token: write',
     'environment:',
     'name: github-pages',
+    'workflow_run:',
+    'workflows: [Refresh Screenshots]',
+    "github.event.workflow_run.conclusion == 'success'",
+    "github.event.workflow_run.head_branch == 'main'",
 ):
     assert required in pages, f'Pages workflow is missing: {required}'
 assert 'persist-credentials: false' in pages
