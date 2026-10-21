@@ -26,13 +26,13 @@ jobs:
     permissions:
       contents: read
     if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps: &audit_steps
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           persist-credentials: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' }}
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
       - name: Install screenshot browser
@@ -69,5 +69,5 @@ jobs:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     permissions:
       contents: write
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps: *audit_steps
